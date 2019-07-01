@@ -1,6 +1,6 @@
 #include "dynamic_entity.h"
 
-dynamic_entity::dynamic_entity(float widthAndHeight, speed_ speedX, speed_ speedY;) :entity(x, y)
+dynamic_entity::dynamic_entity(float widthAndHeight, speed_ speedX, speed_ speedY) :entity(x, y)
 {
 	this->widthAndHeight = widthAndHeight;
 	this->speedX = speedX;
