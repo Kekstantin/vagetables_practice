@@ -19,7 +19,7 @@ public:
 	//public methods
 	virtual void move() = 0;		//Ìåòîä, çàäàþùèé äâèæåíèå äèíàìè÷åñêîé ñóùíîñòè
 	virtual void update() = 0;		//Кость, это надо бы в обертку сунуть
-	virtual void eat(dynamic_entity* entityForEat);	
+	virtual void eat(entity* entityForEat);	
 	
 private:
 	float widthAndHeight;
