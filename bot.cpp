@@ -1,6 +1,8 @@
 #include "bot.h"
 #include "world.h"
 
+bot::bot():dynamic_entity(float widthAndHeight, speed_ speedX, speed_ speedY) : entity(x, y) {}
+
 entity* bot::find_target(world* _world)
 {
 	float distance = sqrt((_world->get_collect_of_static_entitys().begin().first().first() - this->getX()) *
@@ -43,5 +45,5 @@ entity* bot::find_target(world* _world)
 void bot::move(world _world) 
 {
 	auto target = this->find_target(_world);
-	//фиг знает что тут дальше 
+	//ГґГЁГЈ Г§Г­Г ГҐГІ Г·ГІГ® ГІГіГІ Г¤Г Г«ГјГёГҐ 
 }
