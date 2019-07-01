@@ -11,20 +11,21 @@ public:
 	//getters&setters
 	void setPlayer(player* _player);
 	player* getPlayer() const;
-	std::map<std::pair<float, float>, entity*> get_collect_of_static_entitys() const;
-	std::map<std::pair<float, float>, entity*> get_collect_of_dynamic_entitys() const;
+	std::map<std::pair<float, float>, static_entity*> get_collect_of_static_entitys() const;
+	std::map<std::pair<float, float>, dynamic_entity*> get_collect_of_dynamic_entitys() const;
 
 	//public methods
 	void checkCollision();
-	void pushEntity(entity* _entity, type_ _type);
-	bool removeEntity(entity* _entity, type_ _type);
+	void pushStaticEntity(static_entity* _entity);
+	void pushDynamicEntity(dynamic_entity* _entity);
+	bool removeStaticEntity(static_entity* _entity);
+	bool removeDynamicEntity(dynamic_entity* _entity);
 	void createEntity(type_ _type);
 	void moveAllBot() const;
 
 private:
-	const float widthAndHeight = 10000.0;	//Тут 10000 только чтобы собиралось, хз сколько тут поставить
-	std::map<std::pair<float, float>, entity*> collect_of_static_entitys;
-	std::map<std::pair<float, float>, entity*> collect_of_dynamic_entitys;
+	const float widthAndHeight = 10000.0;	//Г’ГіГІ 10000 ГІГ®Г«ГјГЄГ® Г·ГІГ®ГЎГ» Г±Г®ГЎГЁГ°Г Г«Г®Г±Гј, ГµГ§ Г±ГЄГ®Г«ГјГЄГ® ГІГіГІ ГЇГ®Г±ГІГ ГўГЁГІГј
+	std::map<std::pair<float, float>, static_entity*> collect_of_static_entitys;
+	std::map<std::pair<float, float>, dynamic_entity*> collect_of_dynamic_entitys;
 	player* _player;
 };
-
