@@ -5,7 +5,7 @@ class dynamic_entity :
 {
 public:
 	//const&destr
-	dynamic_entity();
+	dynamic_entity(float widthAndHeight, speed_ speedX, speed_ speedY);
 	~dynamic_entity();
 
 	//getters&setters
