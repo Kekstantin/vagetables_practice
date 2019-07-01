@@ -10,7 +10,7 @@ public:
 
 	//public methods
 	// Óíàñëåäîâàíî ÷åðåç dynamic_entity
-	virtual void move(const world* _world) override;
+	virtual void move() override;
 	virtual void update() override;
 };
 
