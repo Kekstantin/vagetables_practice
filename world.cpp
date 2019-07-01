@@ -81,6 +81,8 @@ void world::createEntity(type_ _type)
 
 void world::moveAllBot() const
 {
+	this->checkCollision(this->getPlayer());
+
 	for (auto obj : collect_of_dynamic_entitys) {
 		obj.second->move(); // возмножно в скобках что то будет
 		this->checkCollision(obj.second);
