@@ -10,8 +10,7 @@ public:
 
 	//public methods
 	// Унаследовано через dynamic_entity
-	virtual void move(world* _world) override;
+	virtual void move() override;
 	virtual void update() override;
-	virtual entity* find_target(world* _world);
 };
 
