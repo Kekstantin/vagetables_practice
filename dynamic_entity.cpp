@@ -31,3 +31,5 @@ float dynamic_entity::getWidthAndHeight() const
 {
 	return widthAndHeight;
 }
+
+dynamic_entity::~dynamic_entity(){}
