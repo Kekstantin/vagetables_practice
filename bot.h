@@ -9,8 +9,9 @@ public:
 	~bot();
 
 	//public methods
-	// Г“Г­Г Г±Г«ГҐГ¤Г®ГўГ Г­Г® Г·ГҐГ°ГҐГ§ dynamic_entity
-	virtual void move(const world* _world) override;
+	// Унаследовано через dynamic_entity
+	virtual void move(world* _world) override;
 	virtual void update() override;
+	virtual entity* find_target(world* _world);
 };
 
