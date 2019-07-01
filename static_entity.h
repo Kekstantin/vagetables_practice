@@ -5,13 +5,13 @@ class static_entity :
 {
 public:
 	//const&destr
-	static_entity();
+	static_entity(const float widthAndHeight);
 	~static_entity();
 
 	//public methods
 	float getWidthAndHeight() const;
 
 private:
-	const float widthAndHeight = 10.0;	//Я тут поставил 10 только чтобы оно собиралось
+	const float widthAndHeight = 10.0;	//Гџ ГІГіГІ ГЇГ®Г±ГІГ ГўГЁГ« 10 ГІГ®Г«ГјГЄГ® Г·ГІГ®ГЎГ» Г®Г­Г® Г±Г®ГЎГЁГ°Г Г«Г®Г±Гј
 };
 
