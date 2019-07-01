@@ -5,7 +5,7 @@ class entity
 {
 public:
 	//const&destr
-	entity();
+	entity(coord_ x, coord_ y);
 	~entity();
 
 	//getters&setters
