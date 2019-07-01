@@ -9,3 +9,4 @@ float static_entity::getWidthAndHeight() const
 {
 	return widthAndHeight;
 }
+static_entity::~static_entity(){}
