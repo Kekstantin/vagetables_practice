@@ -24,8 +24,19 @@ std::map<std::pair<float, float>, dynamic_entity*> world::get_collect_of_dynamic
 	return collect_of_dynamic_entitys;
 }
 
-void world::checkCollision()
+void world::checkCollision(dynamic_entity* _dynamic_entity)
 {
+	for (auto obj : collect_of_dynamic_entitys) {
+		bool pointOneX = obj.first.first >= _dynamic_entity->getX() && obj.first.first <= _dynamic_entity->getX() + _dynamic_entity->getWidthAndHeight();
+		bool pointOneY = obj.first.second <= _dynamic_entity->getY() && obj.first.second >= _dynamic_entity->getY() - _dynamic_entity->getWidthAndHeight();
+		bool pointTwoX = obj.first.first + obj.second->getWidthAndHeight() >= _dynamic_entity->getX() && obj.first.first + obj.second->getWidthAndHeight() >= _dynamic_entity->getX() + _dynamic_entity->getWidthAndHeight();
+		bool pointTwoY = obj.first.second - obj.second->getWidthAndHeight() <= _dynamic_entity->getY() && obj.first.second - obj.second->getWidthAndHeight() >= _dynamic_entity->getY() - obj.second->getWidthAndHeight();
+		
+		if (pointOneX && pointOneY && pointTwoX && pointTwoY){
+			_dynamic_entity->eat(obj.second);
+			this->removeDynamicEntity(obj.second);
+		}
+	}
 	//zavtra obsudim
 }
 
@@ -70,8 +81,10 @@ void world::createEntity(type_ _type)
 
 void world::moveAllBot() const
 {
-	for (auto obj : collect_of_dynamic_entitys)
+	for (auto obj : collect_of_dynamic_entitys) {
 		obj.second->move(); // возмножно в скобках что то будет
+		this->checkCollision(obj.second);
+	}
 }
 
 entity* world::find_target(bot* _bot)
