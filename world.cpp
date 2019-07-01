@@ -71,7 +71,7 @@ void world::createEntity(type_ _type)
 void world::moveAllBot() const
 {
 	for (auto obj : collect_of_dynamic_entitys)
-		obj.second->move(this);
+		obj.second->move(); // возмножно в скобках что то будет
 }
 
 entity* world::find_target(bot* _bot)
