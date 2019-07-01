@@ -9,8 +9,8 @@ public:
 	~player();
 
 	//public methods
-	// Унаследовано через dynamic_entity
-	virtual void move() override;
+	// Г“Г­Г Г±Г«ГҐГ¤Г®ГўГ Г­Г® Г·ГҐГ°ГҐГ§ dynamic_entity
+	virtual void move(const world* _world) override;
 	virtual void update() override;
 };
 
