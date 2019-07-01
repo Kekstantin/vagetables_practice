@@ -18,8 +18,8 @@ public:
 
 	//public methods
 	virtual void move() = 0;		//Ìåòîä, çàäàþùèé äâèæåíèå äèíàìè÷åñêîé ñóùíîñòè
-	virtual void update() = 0;		//ìåòîä, îáíîâëÿþùèé ðàñïîëîæåíèå îáúåêòà íà ïîëå (ÍÀÐÓØÀÅÒ ÌÎÄÅËÜ MVC, Êîñòü, ëó÷øå ñóíü ýòî â îáåðòêó)
-	virtual void eat();				//Ìåòîä, âûçûâàåìûé ïðè âîçíèêíîâåíèè êîëëèçèè, óâåëè÷èâàåò ðàçìåð ñúåäàþùåé ñóùíîñòè
+	virtual void update() = 0;		//Кость, это надо бы в обертку сунуть
+	virtual void eat(dynamic_entity* entityForEat);	
 	
 private:
 	float widthAndHeight;
