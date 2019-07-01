@@ -2,6 +2,7 @@
 #include "world.h"
 
 bot::bot():dynamic_entity(float widthAndHeight, speed_ speedX, speed_ speedY) : entity(x, y) {}
+bot::~bot(){}
 
 entity* bot::find_target(world* _world)
 {
