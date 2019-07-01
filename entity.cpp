@@ -25,3 +25,5 @@ coord_ entity::getY() const
 {
 	return y;
 }
+
+entity::~entity(){}
