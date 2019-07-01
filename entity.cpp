@@ -1,6 +1,6 @@
 #include "entity.h"
 
-entity::entity(coord_ x, coord_ y;) 
+entity::entity(coord_ x, coord_ y) 
 {
 	this->x = x;
 	this->y = y;
