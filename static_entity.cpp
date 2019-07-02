@@ -1,12 +1,12 @@
 #include "static_entity.h"
 
-static_entity::static_entity(const float widthAndHeight):entity(x,y)
-{
-	this->widthAndHeight = widthAndHeight;
-}
-
 float static_entity::getWidthAndHeight() const
 {
 	return widthAndHeight;
+}
+
+void static_entity::update(float &time)
+{
+	this->sprite.setPosition(x,y);
 }
 static_entity::~static_entity(){}

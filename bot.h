@@ -6,12 +6,12 @@ class bot :
 public:
 	//const&destr
 	bot() {};
-	bot(coord_ x, coord_ y, speed_ speedX, speed_ speedY, float widthAndHeight) : dynamic_entity(x, y, speedX, speedY, widthAndHeight) {}
+	bot(sf::Texture &texture, sf::FloatRect &rect, speed_ speedX, speed_ speedY) : dynamic_entity(texture, rect, speedX, speedY) {}
 	~bot();
 
 	//public methods
 	// Унаследовано через dynamic_entity
-	virtual void move(float time, entity target) override;
-	//virtual void update() override;
+	virtual void move(float &time, entity* target) override;
+	virtual void update(float &time, entity* target) override;
 };
 

@@ -1,27 +1,22 @@
 #pragma once
-#include "visual_static.h"
+#include "C:\Users\ִלטענטי\source\repos\practice\practice\visual_static.h"
 
-//Otpravit' v control
-/*Texture bot_texture;
-FloatRect bot_rect(0, 0, getwidthAndHeight(), getwidthAndHeight());
-Sprite bot_sprite;
-
-bot_texture.loadFromFile("images/bot.png");
-bot_sprite.setTexture(bot_texture);
-bot_sprite.setOrigin(getwidthAndHeight() / 2, getwidthAndHeight() / 2);*/
-
-
-sf::Sprite draw_bot()
+std::list<sf::Sprite> draw_bot(std::map<std::pair<float, float>, dynamic_entity*> bot_list)
 {
 	for (auto obj : bot_list)
 	{
-		bot_rect.left = &obj->getX();
-		bot_rect.top = &obj->getY();
-		bot_rect.width = &obj->getWidthAndHeight();
-		bot_rect.height = &obj->getWidthAndHeight();
-		&obj->update(time);
+		for (auto obj1 : bot_rect_list)
+		{
+			obj1.left = obj.second->getX();
+			obj1.top = obj.second->getY();
+			obj1.width = obj.second->getWidthAndHeight();
+			obj1.height = obj.second->getWidthAndHeight();
+			for (auto obj2 : bot_sprite_list)
+			{
+				obj2.setOrigin(obj.second->getWidthAndHeight() / 2, obj.second->getWidthAndHeight() / 2);
+				obj2.setPosition(obj1.left, obj1.top);
+			}
+		}
 	}
-
-	bot_sprite.setPosition(bot_rect.left, bot_rect.top);
-	return bot_sprite;
+	return bot_sprite_list;
 }

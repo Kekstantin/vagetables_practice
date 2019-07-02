@@ -5,11 +5,13 @@ class static_entity :
 {
 public:
 	//const&destr
-	static_entity(const float widthAndHeight);
+	static_entity() {}
+	static_entity(sf::Texture &texture, sf::FloatRect &rect) : entity(texture, rect) {}
 	~static_entity();
 
 	//public methods
 	float getWidthAndHeight() const;
+	void update(float &time);
 
 private:
 	const float widthAndHeight = 10.0;	//ß òóò ïîñòàâèë 10 òîëüêî ÷òîáû îíî ñîáèðàëîñü

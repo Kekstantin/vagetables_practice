@@ -1,7 +1,7 @@
 #include "bot.h"
 #include "world.h"
 
-void bot::move(float time, entity* target)
+void bot::move(float &time, entity* target)
 {
         if (this->getSpeedX()>0)
             if (target->getX()<this->getX())
@@ -18,4 +18,10 @@ void bot::move(float time, entity* target)
 
         this->setX(this->getSpeedX()*time);
         this->setY(this->getSpeedY()*time);
+}
+
+void bot::update(float &time, entity* target)
+{
+	move(time, target);
+	this->sprite.setPosition(x, y);
 }

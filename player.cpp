@@ -1,4 +1,14 @@
-include "player.h"
+#include "player.h"
 
-player::player() :entity(x, y):dynamic_entity(widthAndHeight, speedX, speedY) {}
 player::~player(){}
+
+
+void player::move(float & time, entity * target)
+{
+}
+
+void player::update(float &time, entity * target)
+{
+	move(time, target);
+	this->sprite.setPosition(x, y);
+}

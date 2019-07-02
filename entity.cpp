@@ -1,11 +1,5 @@
 #include "entity.h"
 
-entity::entity(coord_ x, coord_ y) 
-{
-	this->x = x;
-	this->y = y;
-}
-
 void entity::setX(coord_ x)
 {
 	this->x = x;
@@ -24,6 +18,16 @@ coord_ entity::getX() const
 coord_ entity::getY() const
 {
 	return y;
+}
+
+float entity::getWidthAndHeight() const
+{
+	return widthAndHeight;
+}
+
+void entity::setWidthAndHeight(float widthAndHeight)
+{
+	this->widthAndHeight = widthAndHeight;
 }
 
 entity::~entity(){}

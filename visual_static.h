@@ -1,27 +1,18 @@
 #pragma once
-#include "visual_world.h"
-
-//Otpravit' v control
-/*Texture static_texture;
-FloatRect static_rect(0, 0, getwidthAndHeight(), getwidthAndHeight());
-Sprite static_sprite;
-
-static_texture.loadFromFile("images/static.png");
-static_sprite.setTexture(static_texture);
-static_sprite.setOrigin(getwidthAndHeight() / 2, getwidthAndHeight() / 2);*/
+#include "C:\Users\ִלטענטי\source\repos\practice\practice\visual_world.h"
 
 
-sf::Sprite draw_static()
+
+
+std::list<sf::Sprite> draw_static(std::map<std::pair<float, float>, static_entity*> _static_list)
 {
-	for (auto obj : static_list)
-	{
-		static_rect.left = &obj->getX();
-		static_rect.top = &obj->getY();
-		static_rect.width = &obj->getWidthAndHeight();
-		static_rect.height = &obj->getWidthAndHeight();
-		&obj->update(time);
+	for (auto obj : _static_list)
+	{								///todo
+		static_rect.left = obj.getX();
+		static_rect.top = obj.getY();
+		static_rect.width = obj.getWidthAndHeight();
+		static_rect.height = obj.getWidthAndHeight();
+		static_sprite.setPosition(static_rect.left, static_rect.top);
 	}
-
-	static_sprite.setPosition(static_rect.left, static_rect.top);
-	return static_sprite;
+	return static_list;
 }

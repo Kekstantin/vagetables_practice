@@ -1,15 +1,5 @@
 #pragma once
-#include "world.h"
-#include <SFML/Graphics.hpp>
-
-//Otpravit' v control
-/*Texture world_texture;
-FloatRect world_rect(0, 0, getwidthAndHeight(), getwidthAndHeight());
-Sprite world_sprite;
-
-world_texture.loadFromFile("images/world.png");
-world_sprite.setTexture(world_texture);
-world_sprite.setOrigin(getwidthAndHeight() / 2, getwidthAndHeight() / 2);*/
+#include "C:\Users\ִלטענטי\source\repos\KVADRAT_IO\Project10\control.h"
 
 
 sf::Sprite draw_world()

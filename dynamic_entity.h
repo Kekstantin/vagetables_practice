@@ -5,20 +5,23 @@ class dynamic_entity :
 {
 public:
 	//const&destr
-	dynamic_entity(float widthAndHeight, speed_ speedX, speed_ speedY);
+	dynamic_entity() {};
+	dynamic_entity(sf::Texture &texture, sf::FloatRect &rect, speed_ speedX, speed_ speedY) : entity(texture, rect), speedX(speedX), speedY(speedY) 
+	{
+		widthAndHeight = rect.height;
+	}
 	~dynamic_entity();
 
 	//getters&setters
 	void setSpeedX(speed_ speedX);
 	void setSpeedY(speed_ speedY);
-	void setWidthAndHeight(float widthAndHeight);
 	speed_ getSpeedX() const;
 	speed_ getSpeedY() const;
-	float getWidthAndHeight() const;
+
 
 	//public methods
-	virtual void move() = 0;		//Ìåòîä, çàäàþùèé äâèæåíèå äèíàìè÷åñêîé ñóùíîñòè
-	virtual void update() = 0;		//Кость, это надо бы в обертку сунуть
+	virtual void move(float &time, entity* target) = 0;		//Ìåòîä, çàäàþùèé äâèæåíèå äèíàìè÷åñêîé ñóùíîñòè
+	virtual void update(float &time, entity* target) = 0;		//Кость, это надо бы в обертку сунуть
 	virtual void eat(entity* entityForEat);	
 	
 private:
