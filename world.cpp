@@ -121,8 +121,10 @@ void world::moveAllBot(float time)
 
 	for (auto obj : collect_of_dynamic_entitys) {
 		obj.second->move(time, this->find_target(obj.second).first);
-		obj.first = mp(obj.second->getX(), obj.second->getY());
-
+		//obj.first = mp(obj.second->getX(), obj.second->getY());
+		auto tmp = collect_of_dynamic_entitys.extract(obj.first);
+		tmp.key() = mp(obj.second->getX(), obj.second->getY());
+		collect_of_dynamic_entitys.insert(move(tmp));
 		this->checkCollision(obj.second);
 	}
 }
