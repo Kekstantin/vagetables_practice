@@ -157,7 +157,8 @@ void world::moveAllBot(float time)
 	}
 }
 
-std::pair<entity*, float> world::find_target(dynamic_entity* _bot)
+//std::pair<entity*, float>
+void world::find_target(dynamic_entity* _bot)
 {
 	float distance = sqrt((this->get_collect_of_static_entitys().begin()->first.first - _bot->getX()) *
 		(this->get_collect_of_static_entitys().begin()->first.first - _bot->getX()) +
@@ -199,7 +200,8 @@ std::pair<entity*, float> world::find_target(dynamic_entity* _bot)
 				
 	}
 	result = mp(target, distance);
-	return result;
+	
+	//return result;
 }
 
 void world::create_method() {

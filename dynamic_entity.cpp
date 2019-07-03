@@ -31,4 +31,16 @@ void dynamic_entity::update(float &time)
 	this->sprite.setPosition(x, y);
 }
 
+void dynamic_entity::setTarget(std::pair<entity*, float> _target)
+{
+	this->target.first = _target.first;
+	this->target.second = _target.second;
+}
+
+std::pair<entity*, float> dynamic_entity::getTarget() const
+{
+	auto result = mp(this->target.first, this->target.second);
+	return result;
+}
+
 dynamic_entity::~dynamic_entity(){}

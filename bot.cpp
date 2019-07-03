@@ -1,10 +1,10 @@
 #include "bot.h"
 #include "world.h"
 
-void bot::move(float &time, std::pair<entity*, float> target)
+void bot::move(float &time)
 {
-	this->setSpeedX(0.2*(target.first->getX() - this->getX()) / (this->getWidthAndHeight()*target.second));
-	this->setSpeedX(0.2*(target.first->getY() - this->getY()) / (this->getWidthAndHeight()*target.second));
+	this->setSpeedX(0.2*(this->getTarget().first->getX() - this->getX()) / (this->getWidthAndHeight()*this->getTarget().second));
+	this->setSpeedX(0.2*(this->getTarget().first->getY() - this->getY()) / (this->getWidthAndHeight()*this->getTarget().second));
 
 
         this->setX(this->getSpeedX()*time);
@@ -13,6 +13,6 @@ void bot::move(float &time, std::pair<entity*, float> target)
 
 void bot::update(float &time)
 {
-	//move(time, target);
+	//move(time);
 	this->sprite.setPosition(x, y);
 }

@@ -11,7 +11,7 @@ public:
 
 	//public methods
 	// Óíàñëåäîâàíî ÷åðåç dynamic_entity
-	void move(float &time, std::pair<entity*, float> target);
+	void move(float &time);
 	void update(float &time);
 };
 

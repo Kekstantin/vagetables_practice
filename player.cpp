@@ -3,7 +3,7 @@
 player::~player(){}
 
 
-void player::move(float &time, std::pair<entity*, float> target)
+void player::move(float &time)
 {
 }
 

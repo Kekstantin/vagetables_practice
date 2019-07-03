@@ -49,7 +49,8 @@ public:
 	bool remove_collect_of_sprites(float widthAndHeight, entity* _entity);
 	void moveAllBot(float time);
 	void create_method();
-	virtual std::pair<entity*, float> find_target(dynamic_entity* bot);
+	//virtual std::pair<entity*, float>
+	void find_target(dynamic_entity* bot);
 
 private:
 	const float widthAndHeight = 5000.0;
