@@ -139,7 +139,7 @@ std::pair<entity*, float> world::find_target(dynamic_entity* _bot)
 	return result;
 }
 
-void create_method(){
+void world::create_method(){
     
     std::mt19937 gen(time(NULL));
     std::uniform_float_distribution<> uid(0, 5000);                 //todo define magic numbers
