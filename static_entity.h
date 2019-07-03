@@ -14,6 +14,6 @@ public:
 	void update(float &time);
 
 private:
-	const float widthAndHeight = 10.0;	//ß òóò ïîñòàâèë 10 òîëüêî ÷òîáû îíî ñîáèðàëîñü
+	const float widthAndHeight = 5.0;	//ß òóò ïîñòàâèë 10 òîëüêî ÷òîáû îíî ñîáèðàëîñü
 };
 

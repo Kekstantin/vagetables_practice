@@ -25,9 +25,9 @@ void dynamic_entity::eat(entity * entityForEat)
 }
 
 
-void dynamic_entity::update(float &time, std::pair<entity*, float> target)
+void dynamic_entity::update(float &time)
 {
-	move(time, target);
+	//move(time, target);
 	this->sprite.setPosition(x, y);
 }
 

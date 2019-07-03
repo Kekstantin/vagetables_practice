@@ -12,6 +12,6 @@ public:
 	//public methods
 	// Унаследовано через dynamic_entity
 	virtual void move(float &time, std::pair<entity*, float> target) override;
-	virtual void update(float &time, std::pair<entity*, float> target) override;
+	virtual void update(float &time) override;
 };
 

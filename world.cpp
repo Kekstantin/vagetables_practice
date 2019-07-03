@@ -25,7 +25,7 @@ std::map<std::pair<float, float>, dynamic_entity*> world::get_collect_of_dynamic
 	return collect_of_dynamic_entitys;
 }
 
-std::map<float, entity*> world::get_collect_of_sprites() const
+std::list<std::pair<float, entity*>> world::get_collect_of_sprites() const
 {
 	return collect_of_sprites;
 }
@@ -48,6 +48,11 @@ sf::FloatRect world::get_static_rect()
 sf::FloatRect world::get_bot_rect()
 {
 	return bot_rect;
+}
+
+sf::Sprite world::getSprite()
+{
+	return world_sprite;
 }
 
 void world::set_static_texture(sf::Texture static_texture)
@@ -120,12 +125,13 @@ bool world::removeDynamicEntity(dynamic_entity * _entity)
 	}
 }
 
-void world::push_collect_of_sprites(float widthAndHeight, entity * _entity)
+void world::push_collect_of_sprites(entity* _entity)
 {
-	collect_of_sprites.insert(mp(widthAndHeight, _entity));
+	this->collect_of_sprites.push_back(mp(_entity->getWidthAndHeight(), _entity));
+	//this->collect_of_sprites[_entity->getWidthAndHeight()] = _entity;
 }
 
-bool world::remove_collect_of_sprites(float widthAndHeight, entity * _entity)
+/*bool world::remove_collect_of_sprites(float widthAndHeight, entity * _entity)
 {
 	auto _iter = collect_of_sprites.find(widthAndHeight);
 
@@ -135,19 +141,19 @@ bool world::remove_collect_of_sprites(float widthAndHeight, entity * _entity)
 		collect_of_sprites.erase(_iter);
 		return true;
 	}
-}
+}*/
 
 void world::moveAllBot(float time)
 {
 	this->checkCollision(this->getPlayer());
 
 	for (auto obj : collect_of_dynamic_entitys) {
-		obj.second->update(time, (this->find_target(obj.second)));
+		//obj.second->update(time, (this->find_target(obj.second)));
 		//obj.first = mp(obj.second->getX(), obj.second->getY());
 		auto tmp = collect_of_dynamic_entitys.extract(obj.first);
 		tmp.key() = mp(obj.second->getX(), obj.second->getY());
 		collect_of_dynamic_entitys.insert(move(tmp));
-		this->checkCollision(obj.second);
+		//this->checkCollision(obj.second);
 	}
 }
 
@@ -192,6 +198,7 @@ std::pair<entity*, float> world::find_target(dynamic_entity* _bot)
 		}
 				
 	}
+	result = mp(target, distance);
 	return result;
 }
 

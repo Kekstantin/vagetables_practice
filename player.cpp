@@ -7,8 +7,8 @@ void player::move(float &time, std::pair<entity*, float> target)
 {
 }
 
-void player::update(float &time, std::pair<entity*, float> target)
+void player::update(float &time)
 {
-	move(time, target);
+	//move(time, target);
 	this->sprite.setPosition(x, y);
 }

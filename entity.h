@@ -6,8 +6,11 @@ class entity
 public:
 	//const&destr
 	entity() {};
-	entity(sf::Texture &texture, sf::FloatRect &rect) : x(rect.left), y(rect.top)//perepisat' konstructori u ostalnih entity 
+	entity(sf::Texture &texture, sf::FloatRect &rect) //perepisat' konstructori u ostalnih entity 
 	{ 
+		x = rect.left;
+		y = rect.top;
+		widthAndHeight = rect.width;
 		sprite.setTextureRect(sf::IntRect(rect.left, rect.top, widthAndHeight, widthAndHeight)); 
 		sprite.setTexture(texture); 
 	}

@@ -11,8 +11,8 @@ void bot::move(float &time, std::pair<entity*, float> target)
         this->setY(this->getSpeedY()*time);
 }
 
-void bot::update(float &time, std::pair<entity*, float> target)
+void bot::update(float &time)
 {
-	move(time, target);
+	//move(time, target);
 	this->sprite.setPosition(x, y);
 }
