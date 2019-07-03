@@ -27,8 +27,8 @@ public:
 	bool removeStaticEntity(static_entity* _entity);
 	bool removeDynamicEntity(dynamic_entity* _entity);
 	void createEntity(type_ _type);
-	void moveAllBot();
-	virtual entity* find_target(bot* bot);
+	void moveAllBot(float time);
+	virtual std::pair<entity*, float> find_target(dynamic_entity* bot);
 
 private:
 	const float widthAndHeight = 10000.0;	//Òóò 10000 òîëüêî ÷òîáû ñîáèðàëîñü, õç ñêîëüêî òóò ïîñòàâèòü

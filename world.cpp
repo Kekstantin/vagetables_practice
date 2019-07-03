@@ -84,18 +84,18 @@ void world::createEntity(type_ _type)
 		//zdes budut sozdavatysa elementy 
 }
 
-void world::moveAllBot()
+void world::moveAllBot(float time)
 {
 	this->checkCollision(this->getPlayer());
 
 	for (auto obj : collect_of_dynamic_entitys) {
-		obj.second->move(); // возмножно в скобках что то будет
+		obj.second->move(time, this->find_target(obj.second).first);
 
 		this->checkCollision(obj.second);
 	}
 }
 
-entity* world::find_target(bot* _bot)
+std::pair<entity*, float> world::find_target(dynamic_entity* _bot)
 {
 	float distance = sqrt((this->get_collect_of_static_entitys().begin()->first.first - _bot->getX()) *
 		(this->get_collect_of_static_entitys().begin()->first.first - _bot->getX()) +
@@ -103,6 +103,7 @@ entity* world::find_target(bot* _bot)
 		(this->get_collect_of_static_entitys().begin()->first.second - _bot->getY()));
 	float new_distance;
 	entity* target = this->get_collect_of_static_entitys().begin()->second;
+	auto result = mp(target, distance);
 	
 	for (auto i : this->get_collect_of_static_entitys())
 	{
@@ -127,12 +128,13 @@ entity* world::find_target(bot* _bot)
 				(i.first.second - _bot->getY()) *
 				(i.first.second - _bot->getY()));
 		}
-                auto xtime = (_bot->getX()-i.getX())/(i.getSpeedX()-_bot.getSpeedX());
-                auto ytime = (_bot->getY()-i.getY())/(i.getSpeedY()-_bot.getSpeedY());
+                auto xtime = (_bot->getX()-i.second->getX())/(i.second->getSpeedX()-_bot->getSpeedX());
+                auto ytime = (_bot->getY()-i.second->getY())/(i.second->getSpeedY()-_bot->getSpeedY());
                 if ((new_distance < distance) && (xtime>0) && (ytime>0)) {
 			distance = new_distance;
 			target = i.second;
 		}
+				
 	}
-	return target;
+	return result;
 }

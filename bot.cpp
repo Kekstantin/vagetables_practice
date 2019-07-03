@@ -1,26 +1,17 @@
 #include "bot.h"
 #include "world.h"
 
-void bot::move(float &time, entity* target)
+void bot::move(float &time, std::pair<entity*, float> target)
 {
-        if (this->getSpeedX()>0)
-            if (target->getX()<this->getX())
-                this->setSpeedX(this->getSpeedX*=(-1));
-        if (this->getSpeedX()<0)
-            if (target->getX()>this->getX())
-                this->setSpeedX(this->getSpeedX*=(-1));
-        if (this->getSpeedY()>0)
-            if (target->getY()<this->getY())
-                this->setSpeedY(this->getSpeedY*=(-1));
-        if (this->getSpeedY()<0)
-            if (target->getY()>this->getY())
-                this->setSpeedY(this->getSpeedY*=(-1));
+	this->setSpeedX(0.2*(target.first->getX() - this->getX()) / (this->getWidthAndHeight()*target.second));
+	this->setSpeedX(0.2*(target.first->getY() - this->getY()) / (this->getWidthAndHeight()*target.second));
+
 
         this->setX(this->getSpeedX()*time);
         this->setY(this->getSpeedY()*time);
 }
 
-void bot::update(float &time, entity* target)
+void bot::update(float &time, std::pair<entity*, float> target)
 {
 	move(time, target);
 	this->sprite.setPosition(x, y);
