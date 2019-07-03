@@ -28,6 +28,7 @@ public:
 	bool removeDynamicEntity(dynamic_entity* _entity);
 	void createEntity(type_ _type);
 	void moveAllBot(float time);
+	void create_method();
 	virtual std::pair<entity*, float> find_target(dynamic_entity* bot);
 
 private:
