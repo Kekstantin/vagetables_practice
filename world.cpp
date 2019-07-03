@@ -1,15 +1,11 @@
 #include "world.h"
 
-world::world(){}
-
-world::~world(){}
-
 void world::setPlayer(player * _player)
 {
 	this->_player = _player;
 }
 
-player * world::getPlayer() const
+player * world::getPlayer()
 {
 	return _player;
 }
@@ -27,6 +23,46 @@ std::map<std::pair<float, float>, static_entity*> world::get_collect_of_static_e
 std::map<std::pair<float, float>, dynamic_entity*> world::get_collect_of_dynamic_entitys() const
 {
 	return collect_of_dynamic_entitys;
+}
+
+sf::Texture world::get_static_texture()
+{
+	return static_texture;
+}
+
+sf::Texture world::get_bot_texture()
+{
+	return bot_texture;
+}
+
+sf::FloatRect world::get_static_rect()
+{
+	return static_rect;
+}
+
+sf::FloatRect world::get_bot_rect()
+{
+	return bot_rect;
+}
+
+void world::set_static_texture(sf::Texture static_texture)
+{
+	this->static_texture = static_texture;
+}
+
+void world::set_bot_texture(sf::Texture bot_texture)
+{
+	this->bot_texture = bot_texture;
+}
+
+void world::set_static_rect(sf::FloatRect static_rect)
+{
+	this->static_rect = static_rect;
+}
+
+void world::set_bot_rect(sf::FloatRect bot_rect)
+{
+	this->bot_rect = bot_rect;
 }
 
 void world::checkCollision(dynamic_entity* _dynamic_entity)
@@ -79,17 +115,13 @@ bool world::removeDynamicEntity(dynamic_entity * _entity)
 	}
 }
 
-void world::createEntity(type_ _type)
-{
-		//zdes budut sozdavatysa elementy 
-}
-
 void world::moveAllBot(float time)
 {
 	this->checkCollision(this->getPlayer());
 
 	for (auto obj : collect_of_dynamic_entitys) {
 		obj.second->move(time, this->find_target(obj.second).first);
+		obj.first = mp(obj.second->getX(), obj.second->getY());
 
 		this->checkCollision(obj.second);
 	}
@@ -139,35 +171,35 @@ std::pair<entity*, float> world::find_target(dynamic_entity* _bot)
 	return result;
 }
 
-void world::create_method(){
-    
-    std::mt19937 gen(time(NULL));
-    std::uniform_float_distribution<> uid(0, 5000);                 //todo define magic numbers
-    
-    while (this->get_collect_of_dynamic_entitys.size() < 50){       //todo define magic numbers
-        float perem_x = uid(gen);
-        float perem_y = uid(gen);
-        
-        bool is_point_for_spawn_is_good1 = perem_x > this->getPlayer().getX() + /*polovina razmera okna po x*/;
-        bool is_point_for_spawn_is_good2 = perem_x < this->getPlayer().getX() - /*polovina razmera okna po x*/;
-        bool is_point_for_spawn_is_good3 = perem_y > this->getPlayer().getY() + /*polovina razmera okna po y*/;
-        bool is_point_for_spawn_is_good4 = perem_y < this->getPlayer().getY() - /*polovina razmera okna po y*/;
-        
-        if(is_point_for_spawn_is_good1 || is_point_for_spawn_is_good2 || is_point_for_spawn_is_good3 || is_point_for_spawn_is_good4)                                            //tut nuzno znat razmer okna blyat
-           this->get_collect_of_dynamic_entitys.emplace(mp(mp(perem_x, perem_y), new bot(/*texture&rect*/, 0.141, 0.141)));     //todo define magic numbers
-    }
-        
-    while(this->get_collect_of_static_entitys.size() < 300){         //todo define magic numbers
-        float perem_x = uid(gen);
-        float perem_y = uid(gen);
-        
-        bool is_point_for_spawn_is_good1 = perem_x > this->getPlayer().getX() + /*polovina razmera okna po x*/;
-        bool is_point_for_spawn_is_good2 = perem_x < this->getPlayer().getX() - /*polovina razmera okna po x*/;
-        bool is_point_for_spawn_is_good3 = perem_y > this->getPlayer().getY() + /*polovina razmera okna po y*/;
-        bool is_point_for_spawn_is_good4 = perem_y < this->getPlayer().getY() - /*polovina razmera okna po y*/;
-        
-        if(is_point_for_spawn_is_good1 || is_point_for_spawn_is_good2 || is_point_for_spawn_is_good3 || is_point_for_spawn_is_good4)                                            //tut nuzno znat razmer okna blyat
-           this->get_collect_of_static_entitys.emplace(mp(mp(perem_x, perem_y), new static_entity(/*texture&rect*/)));
-    }    
-    
+void world::create_method() {
+
+	std::mt19937 gen(time(NULL));
+	std::uniform_int_distribution<> uid(0, 5000);                 //todo define magic numbers
+
+	while (this->get_collect_of_dynamic_entitys.size() < 50) {       //todo define magic numbers
+		float perem_x = uid(gen);
+		float perem_y = uid(gen);
+
+		bool is_point_for_spawn_is_good1 = perem_x > this->getPlayer().getX() + 1366 / 2;
+		bool is_point_for_spawn_is_good2 = perem_x < this->getPlayer().getX() - 1366 / 2;
+		bool is_point_for_spawn_is_good3 = perem_y > this->getPlayer().getY() + 768 / 2;
+		bool is_point_for_spawn_is_good4 = perem_y < this->getPlayer().getY() - 768 / 2;
+
+		if (is_point_for_spawn_is_good1 || is_point_for_spawn_is_good2 || is_point_for_spawn_is_good3 || is_point_for_spawn_is_good4)                                            //tut nuzno znat razmer okna blyat
+			this->get_collect_of_dynamic_entitys.emplace(mp(mp(perem_x, perem_y), new bot(bot_texture, bot_rect, 0.141, 0.141)));  //need getters   //todo define magic numbers
+	}
+
+	while (this->get_collect_of_static_entitys.size() < 300) {         //todo define magic numbers
+		float perem_x = uid(gen);
+		float perem_y = uid(gen);
+
+		bool is_point_for_spawn_is_good1 = perem_x > this->getPlayer().getX() + 1366 / 2;
+		bool is_point_for_spawn_is_good2 = perem_x < this->getPlayer().getX() - 1366 / 2;
+		bool is_point_for_spawn_is_good3 = perem_y > this->getPlayer().getY() + 768 / 2;
+		bool is_point_for_spawn_is_good4 = perem_y < this->getPlayer().getY() - 768 / 2;
+
+		if (is_point_for_spawn_is_good1 || is_point_for_spawn_is_good2 || is_point_for_spawn_is_good3 || is_point_for_spawn_is_good4)                                            //tut nuzno znat razmer okna blyat
+			this->get_collect_of_static_entitys.emplace(mp(mp(perem_x, perem_y), new static_entity(static_texture, static_rect)));//need getters
+	}
+
 }

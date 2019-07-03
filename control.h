@@ -6,7 +6,7 @@ using namespace sf;
 std::list<FloatRect> bot_rect_list;
 std::list<Sprite> bot_sprite_list;
 
-void aaaa()
+void initialization()
 {
 	Clock clock;
 	float time = clock.getElapsedTime().asMicroseconds();
@@ -33,10 +33,14 @@ void aaaa()
 	player_texture.loadFromFile("images/player.png");
 
 
-	world _world(world_texture, world_rect);
+	world _world(world_texture, world_rect, bot_texture, bot_rect, static_texture, static_rect);
+	_world.set_static_rect(static_rect);
+	_world.set_bot_rect(bot_rect);
+	_world.set_static_texture(static_texture);
+	_world.set_bot_texture(bot_texture);
 	static_entity static1(static_texture, static_rect);//list of static entity
-	bot b1(bot_texture, bot_rect, 1.0 / bot_rect.height, 1.0 / bot_rect.height);//listOfBots
-	player _player(player_texture, player_rect, 1.0 / player_rect.height, 1.0 / player_rect.height);
+	bot b1(bot_texture, bot_rect, 0.141, 0.141);//listOfBots
+	player _player(player_texture, player_rect, 0, 0);//плееру не нужна начальная скорость
 
 
 }
