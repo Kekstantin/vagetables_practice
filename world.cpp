@@ -138,3 +138,36 @@ std::pair<entity*, float> world::find_target(dynamic_entity* _bot)
 	}
 	return result;
 }
+
+void create_method(){
+    
+    std::mt19937 gen(time(NULL));
+    std::uniform_float_distribution<> uid(0, 5000);                 //todo define magic numbers
+    
+    while (this->get_collect_of_dynamic_entitys.size() < 50){       //todo define magic numbers
+        float perem_x = uid(gen);
+        float perem_y = uid(gen);
+        
+        bool is_point_for_spawn_is_good1 = perem_x > this->getPlayer().getX() + /*polovina razmera okna po x*/;
+        bool is_point_for_spawn_is_good2 = perem_x < this->getPlayer().getX() - /*polovina razmera okna po x*/;
+        bool is_point_for_spawn_is_good3 = perem_y > this->getPlayer().getY() + /*polovina razmera okna po y*/;
+        bool is_point_for_spawn_is_good4 = perem_y < this->getPlayer().getY() - /*polovina razmera okna po y*/;
+        
+        if(is_point_for_spawn_is_good1 || is_point_for_spawn_is_good2 || is_point_for_spawn_is_good3 || is_point_for_spawn_is_good4)                                            //tut nuzno znat razmer okna blyat
+           this->get_collect_of_dynamic_entitys.emplace(mp(mp(perem_x, perem_y), new bot(/*texture&rect*/, 0.141, 0.141)));     //todo define magic numbers
+    }
+        
+    while(this->get_collect_of_static_entitys.size() < 300){         //todo define magic numbers
+        float perem_x = uid(gen);
+        float perem_y = uid(gen);
+        
+        bool is_point_for_spawn_is_good1 = perem_x > this->getPlayer().getX() + /*polovina razmera okna po x*/;
+        bool is_point_for_spawn_is_good2 = perem_x < this->getPlayer().getX() - /*polovina razmera okna po x*/;
+        bool is_point_for_spawn_is_good3 = perem_y > this->getPlayer().getY() + /*polovina razmera okna po y*/;
+        bool is_point_for_spawn_is_good4 = perem_y < this->getPlayer().getY() - /*polovina razmera okna po y*/;
+        
+        if(is_point_for_spawn_is_good1 || is_point_for_spawn_is_good2 || is_point_for_spawn_is_good3 || is_point_for_spawn_is_good4)                                            //tut nuzno znat razmer okna blyat
+           this->get_collect_of_static_entitys.emplace(mp(mp(perem_x, perem_y), new static_entity(/*texture&rect*/)));
+    }    
+    
+}
