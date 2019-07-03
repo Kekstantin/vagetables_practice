@@ -1,4 +1,4 @@
-#include "C:\Users\Дмитрий\source\repos\KVADRAT_IO\Project10\control.h"
+#include "control.h"
 
 
 
@@ -9,9 +9,7 @@ int main()
 	std::list<FloatRect> bot_rect_list;
 	std::list<Sprite> bot_sprite_list;
 		Clock clock;
-		float time1 = clock.getElapsedTime().asMicroseconds();
-		clock.restart();
-		time1 = time1 / 800;
+		
 
 
 		Texture world_texture;
@@ -29,10 +27,11 @@ int main()
 
 
 		Texture player_texture;
-		FloatRect player_rect(300, 200, 15, 15);
+		FloatRect player_rect(600, 800, 15, 15);
 		player_texture.loadFromFile("images/player.png");
 
-		player _player(player_texture, player_rect, 0, 0);//плееру не нужна начальная скорость
+		player _player(player_texture, player_rect, 0.141, 0.141);//плееру не нужна начальная скорость
+		_player.view.reset(sf::FloatRect(0, 0, 1366, 768));
 
 		world _world(world_texture, world_rect, bot_texture, bot_rect, static_texture, static_rect, &_player);
 		_world.set_static_rect(static_rect);
@@ -49,6 +48,10 @@ int main()
 		_world.push_collect_of_sprites(&b1);
 		_world.push_collect_of_sprites(&_player);
 
+
+		int tempX = 0;
+		int tempY = 0;
+		float distance = 0;
 
 
 		////******/////
@@ -101,12 +104,39 @@ int main()
 
 	while (window.isOpen())
 	{
+		float time1 = clock.getElapsedTime().asMicroseconds();
+		clock.restart();
+		time1 = time1 / 800;
+
+		Vector2i pixelPos = Mouse::getPosition(window);
+		Vector2f pos = window.mapPixelToCoords(pixelPos);
+
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
 
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					_player.isMove = true;
+					tempX = pos.x;
+					tempY = pos.y;
+					if (_player.isMove)
+					{
+						distance = sqrt((tempX - _player.getX())*(tempX - _player.getX()) + (tempY - _player.getY())*(tempY - _player.getY()));
+						if (distance > 30)
+						{
+							_player.setX(_player.getX() + _player.getSpeedX()*time1*(tempX - _player.getX()) / distance);
+							_player.setY(_player.getY() + _player.getSpeedY()*time1*(tempY - _player.getY()) / distance);
+						}
+						else _player.isMove = false;
+					}
+
+				}
+			}
 		}
 
 		for (auto obj : _world.get_collect_of_dynamic_entitys())
@@ -116,6 +146,8 @@ int main()
 			obj.second->update(time1);
 
 		_player.update(time1);
+
+		window.setView(_player.view);
 		window.clear();
 
 		window.draw(_world.getSprite());
