@@ -25,6 +25,11 @@ std::map<std::pair<float, float>, dynamic_entity*> world::get_collect_of_dynamic
 	return collect_of_dynamic_entitys;
 }
 
+std::map<float, entity*> world::get_collect_of_sprites() const
+{
+	return collect_of_sprites;
+}
+
 sf::Texture world::get_static_texture()
 {
 	return static_texture;
@@ -115,12 +120,29 @@ bool world::removeDynamicEntity(dynamic_entity * _entity)
 	}
 }
 
+void world::push_collect_of_sprites(float widthAndHeight, entity * _entity)
+{
+	collect_of_sprites.insert(mp(widthAndHeight, _entity));
+}
+
+bool world::remove_collect_of_sprites(float widthAndHeight, entity * _entity)
+{
+	auto _iter = collect_of_sprites.find(widthAndHeight);
+
+	if (_iter == collect_of_sprites.end())
+		return false;
+	else {
+		collect_of_sprites.erase(_iter);
+		return true;
+	}
+}
+
 void world::moveAllBot(float time)
 {
 	this->checkCollision(this->getPlayer());
 
 	for (auto obj : collect_of_dynamic_entitys) {
-		obj.second->move(time, this->find_target(obj.second).first);
+		obj.second->update(time, (this->find_target(obj.second)));
 		//obj.first = mp(obj.second->getX(), obj.second->getY());
 		auto tmp = collect_of_dynamic_entitys.extract(obj.first);
 		tmp.key() = mp(obj.second->getX(), obj.second->getY());
@@ -178,30 +200,30 @@ void world::create_method() {
 	std::mt19937 gen(time(NULL));
 	std::uniform_int_distribution<> uid(0, 5000);                 //todo define magic numbers
 
-	while (this->get_collect_of_dynamic_entitys.size() < 50) {       //todo define magic numbers
+	while (this->get_collect_of_dynamic_entitys().size() < 50) {       //todo define magic numbers
 		float perem_x = uid(gen);
 		float perem_y = uid(gen);
 
-		bool is_point_for_spawn_is_good1 = perem_x > this->getPlayer().getX() + 1366 / 2;
-		bool is_point_for_spawn_is_good2 = perem_x < this->getPlayer().getX() - 1366 / 2;
-		bool is_point_for_spawn_is_good3 = perem_y > this->getPlayer().getY() + 768 / 2;
-		bool is_point_for_spawn_is_good4 = perem_y < this->getPlayer().getY() - 768 / 2;
+		bool is_point_for_spawn_is_good1 = perem_x > this->getPlayer()->getX() + 1366 / 2;
+		bool is_point_for_spawn_is_good2 = perem_x < this->getPlayer()->getX() - 1366 / 2;
+		bool is_point_for_spawn_is_good3 = perem_y > this->getPlayer()->getY() + 768 / 2;
+		bool is_point_for_spawn_is_good4 = perem_y < this->getPlayer()->getY() - 768 / 2;
 
 		if (is_point_for_spawn_is_good1 || is_point_for_spawn_is_good2 || is_point_for_spawn_is_good3 || is_point_for_spawn_is_good4)                                            //tut nuzno znat razmer okna blyat
-			this->get_collect_of_dynamic_entitys.emplace(mp(mp(perem_x, perem_y), new bot(bot_texture, bot_rect, 0.141, 0.141)));  //need getters   //todo define magic numbers
+			this->get_collect_of_dynamic_entitys().emplace(mp(mp(perem_x, perem_y), new bot(bot_texture, bot_rect, 0.141, 0.141)));  //need getters   //todo define magic numbers
 	}
 
-	while (this->get_collect_of_static_entitys.size() < 300) {         //todo define magic numbers
+	while (this->get_collect_of_static_entitys().size() < 300) {         //todo define magic numbers
 		float perem_x = uid(gen);
 		float perem_y = uid(gen);
 
-		bool is_point_for_spawn_is_good1 = perem_x > this->getPlayer().getX() + 1366 / 2;
-		bool is_point_for_spawn_is_good2 = perem_x < this->getPlayer().getX() - 1366 / 2;
-		bool is_point_for_spawn_is_good3 = perem_y > this->getPlayer().getY() + 768 / 2;
-		bool is_point_for_spawn_is_good4 = perem_y < this->getPlayer().getY() - 768 / 2;
+		bool is_point_for_spawn_is_good1 = perem_x > this->getPlayer()->getX() + 1366 / 2;
+		bool is_point_for_spawn_is_good2 = perem_x < this->getPlayer()->getX() - 1366 / 2;
+		bool is_point_for_spawn_is_good3 = perem_y > this->getPlayer()->getY() + 768 / 2;
+		bool is_point_for_spawn_is_good4 = perem_y < this->getPlayer()->getY() - 768 / 2;
 
 		if (is_point_for_spawn_is_good1 || is_point_for_spawn_is_good2 || is_point_for_spawn_is_good3 || is_point_for_spawn_is_good4)                                            //tut nuzno znat razmer okna blyat
-			this->get_collect_of_static_entitys.emplace(mp(mp(perem_x, perem_y), new static_entity(static_texture, static_rect)));//need getters
+			this->get_collect_of_static_entitys().emplace(mp(mp(perem_x, perem_y), new static_entity(static_texture, static_rect)));//need getters
 	}
 
 }

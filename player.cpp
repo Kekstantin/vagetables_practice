@@ -3,11 +3,11 @@
 player::~player(){}
 
 
-void player::move(float & time, entity * target)
+void player::move(float &time, std::pair<entity*, float> target)
 {
 }
 
-void player::update(float &time, entity * target)
+void player::update(float &time, std::pair<entity*, float> target)
 {
 	move(time, target);
 	this->sprite.setPosition(x, y);

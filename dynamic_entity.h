@@ -20,8 +20,8 @@ public:
 
 
 	//public methods
-	virtual void move(float &time, entity* target) = 0;		//Ìåòîä, çàäàþùèé äâèæåíèå äèíàìè÷åñêîé ñóùíîñòè
-	virtual void update(float &time, entity* target) = 0;		//Кость, это надо бы в обертку сунуть
+	virtual void move(float &time, std::pair<entity*, float> target) = 0;		//Ìåòîä, çàäàþùèé äâèæåíèå äèíàìè÷åñêîé ñóùíîñòè
+	virtual void update(float &time, std::pair<entity*, float> target) = 0;		//Кость, это надо бы в обертку сунуть
 	virtual void eat(entity* entityForEat);	
 	
 private:

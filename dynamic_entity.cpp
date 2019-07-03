@@ -21,11 +21,11 @@ speed_ dynamic_entity::getSpeedY() const
 
 void dynamic_entity::eat(entity * entityForEat)
 {
-	this->setWidthAndHeight(this->getWidthAndHeight + entityForEat->getWidthAndHeight());
+	this->setWidthAndHeight(this->getWidthAndHeight() + entityForEat->getWidthAndHeight());
 }
 
 
-void dynamic_entity::update(float &time, entity* target)
+void dynamic_entity::update(float &time, std::pair<entity*, float> target)
 {
 	move(time, target);
 	this->sprite.setPosition(x, y);

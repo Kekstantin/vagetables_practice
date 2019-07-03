@@ -20,6 +20,7 @@ public:
 	coord_ getX() const;
 	void setWidthAndHeight(float widthAndHeight);
 	float getWidthAndHeight() const;
+	sf::Sprite getSprite() const;
 
 protected:
 	sf::Sprite sprite;//getter nado napista'

@@ -25,6 +25,11 @@ float entity::getWidthAndHeight() const
 	return widthAndHeight;
 }
 
+sf::Sprite entity::getSprite() const
+{
+	return sprite;
+}
+
 void entity::setWidthAndHeight(float widthAndHeight)
 {
 	this->widthAndHeight = widthAndHeight;

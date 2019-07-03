@@ -7,11 +7,11 @@ public:
 	//const&destr
 	bot() {};
 	bot(sf::Texture &texture, sf::FloatRect &rect, speed_ speedX, speed_ speedY) : dynamic_entity(texture, rect, speedX, speedY) {}
-	~bot();
+	~bot() {};
 
 	//public methods
 	// Унаследовано через dynamic_entity
-	virtual void move(float &time, std::pair<entity*, float>) override;
-	virtual void update(float &time, std::pair<entity*, float>) override;
+	virtual void move(float &time, std::pair<entity*, float> target) override;
+	virtual void update(float &time, std::pair<entity*, float> target) override;
 };
 

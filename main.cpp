@@ -1,41 +1,24 @@
-#include <SFML/Graphics.hpp>
+#include "C:\Users\ִלטענטי\source\repos\KVADRAT_IO\Project10\control.h"
 
-using namespace sf;
+
 
 int main()
-
 {
-
-	RenderWindow window(VideoMode(200, 200), "SFMLworks");
-
-	CircleShape shape(100.f);
-
-	shape.setFillColor(Color::Green);
+	sf::RenderWindow window(sf::VideoMode(1366, 768), "Lesson 2. kychka-pc.ru");
+	
 
 	while (window.isOpen())
-
 	{
-
-		Event event;
-
+		sf::Event event;
 		while (window.pollEvent(event))
-
 		{
-
-			if (event.type == Event::Closed)
-
+			if (event.type == sf::Event::Closed)
 				window.close();
-
 		}
-
+		initialization(&window);
 		window.clear();
-
-		window.draw(shape);
-
 		window.display();
-
 	}
 
 	return 0;
-
 }

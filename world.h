@@ -24,6 +24,7 @@ public:
 	float getWidthAndHeight() const;
 	std::map<std::pair<float, float>, static_entity*> get_collect_of_static_entitys() const;
 	std::map<std::pair<float, float>, dynamic_entity*> get_collect_of_dynamic_entitys() const;
+	std::map<float, entity*> get_collect_of_sprites() const;
 	sf::Texture get_static_texture();
 	sf::Texture get_bot_texture();
 	sf::FloatRect get_static_rect();
@@ -41,6 +42,8 @@ public:
 	void pushDynamicEntity(dynamic_entity* _entity);
 	bool removeStaticEntity(static_entity* _entity);
 	bool removeDynamicEntity(dynamic_entity* _entity);
+	void push_collect_of_sprites(float widthAndHeight, entity* _entity);
+	bool remove_collect_of_sprites(float widthAndHeight, entity* _entity);
 	void moveAllBot(float time);
 	void create_method();
 	virtual std::pair<entity*, float> find_target(dynamic_entity* bot);
@@ -53,10 +56,10 @@ private:
 	player* _player;
 	sf::Sprite sprite;
 
-	sf::Texture static_texture;//
-	sf::FloatRect static_rect;//
-	sf::Texture bot_texture;//
-	sf::FloatRect bot_rect;//
+	sf::Texture static_texture;
+	sf::FloatRect static_rect;
+	sf::Texture bot_texture;
+	sf::FloatRect bot_rect;
 	sf::Texture player_texture;
 	sf::FloatRect player_rect;
 };

@@ -6,7 +6,7 @@ using namespace sf;
 std::list<FloatRect> bot_rect_list;
 std::list<Sprite> bot_sprite_list;
 
-void initialization()
+void initialization(sf::RenderWindow* window)
 {
 	Clock clock;
 	float time = clock.getElapsedTime().asMicroseconds();
@@ -42,5 +42,11 @@ void initialization()
 	bot b1(bot_texture, bot_rect, 0.141, 0.141);//listOfBots
 	player _player(player_texture, player_rect, 0, 0);//плееру не нужна начальная скорость
 
+	_world.push_collect_of_sprites(static1.getWidthAndHeight(), &static1);
+	_world.push_collect_of_sprites(b1.getWidthAndHeight(), &b1);
+	_world.push_collect_of_sprites(_player.getWidthAndHeight(), &_player);
 
+	_world.moveAllBot(time);
+	for (auto obj : _world.get_collect_of_sprites())
+		window->draw(obj.second->getSprite());
 }
