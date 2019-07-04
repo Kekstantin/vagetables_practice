@@ -21,7 +21,10 @@ speed_ dynamic_entity::getSpeedY() const
 
 void dynamic_entity::eat(entity * entityForEat)
 {
-	this->setWidthAndHeight(this->getWidthAndHeight() + entityForEat->getWidthAndHeight());
+    float tmp = this->getWidthAndHeight();
+	this->setWidthAndHeight(this->getWidthAndHeight() + 8.0/(this->getWidthAndHeight()-entityForEat->getWidthAndHeight()));
+    sprite.setTextureRect(sf::IntRect(entity_rect.left, entity_rect.top, entity_rect.height, entity_rect.height));
+	//this->getSprite().scale(this->getWidthAndHeight()/tmp,this->getWidthAndHeight()/tmp);
 }
 
 

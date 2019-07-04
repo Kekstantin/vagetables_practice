@@ -1,5 +1,5 @@
 #pragma once
-#include "C:\Users\ִלטענטי\source\repos\KVADRAT_IO\Project10\control.h"
+#include "control.h"
 
 
 sf::Sprite draw_world()

@@ -1,5 +1,5 @@
 #pragma once
-#include "C:\Users\ִלטענטי\source\repos\practice\practice\visual_static.h"
+#include "visual_static.h"
 
 std::list<sf::Sprite> draw_bot(std::map<std::pair<float, float>, dynamic_entity*> bot_list)
 {

@@ -27,7 +27,7 @@ public:
 	virtual void update(float &time) = 0;		//Кость, это надо бы в обертку сунуть
 	virtual void eat(entity* entityForEat);	
 	
-private:
+protected:
 	float widthAndHeight;
 	speed_ speedX;
 	speed_ speedY;

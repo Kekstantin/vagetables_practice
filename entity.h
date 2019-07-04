@@ -7,7 +7,8 @@ public:
 	//const&destr
 	entity() {};
 	entity(sf::Texture &texture, sf::FloatRect &rect) //perepisat' konstructori u ostalnih entity 
-	{ 
+	{
+	    entity_rect = rect;
 		x = rect.left;
 		y = rect.top;
 		widthAndHeight = rect.width;
@@ -21,12 +22,13 @@ public:
 	void setX(coord_ coordinate);
 	coord_ getY() const;
 	coord_ getX() const;
+	sf::FloatRect getRect();
 	void setWidthAndHeight(float widthAndHeight);
 	float getWidthAndHeight() const;
 	sf::Sprite getSprite() const;
-
+    sf::Sprite sprite;//getter nado napista'
+    sf::FloatRect entity_rect;
 protected:
-	sf::Sprite sprite;//getter nado napista'
 
 	coord_ x;
 	float widthAndHeight;

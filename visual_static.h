@@ -1,5 +1,5 @@
 #pragma once
-#include "C:\Users\ִלטענטי\source\repos\practice\practice\visual_world.h"
+#include "visual_world.h"
 
 
 

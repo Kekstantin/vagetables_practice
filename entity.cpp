@@ -3,11 +3,13 @@
 void entity::setX(coord_ x)
 {
 	this->x = x;
+	entity_rect.left = this-> x;
 }
 
 void entity::setY(coord_ y)
 {
 	this->y = y;
+	entity_rect.top = this->y;
 }
 
 coord_ entity::getX() const
@@ -33,6 +35,13 @@ sf::Sprite entity::getSprite() const
 void entity::setWidthAndHeight(float widthAndHeight)
 {
 	this->widthAndHeight = widthAndHeight;
+	entity_rect.width = this->widthAndHeight;
+	entity_rect.height = this->widthAndHeight;
 }
 
 entity::~entity(){}
+
+sf::FloatRect entity::getRect()
+{
+    return entity_rect;
+}

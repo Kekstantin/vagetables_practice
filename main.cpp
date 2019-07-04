@@ -13,24 +13,24 @@ int main()
 
 
 		Texture world_texture;
-		FloatRect world_rect(0, 0, 5000, 5000);
-		world_texture.loadFromFile("images/world.jpg");
+		FloatRect world_rect(0, 0, 2333, 2333);
+		world_texture.loadFromFile("/home/noname/CLionProjects/square-io/images/world.jpg");
 
 		Texture static_texture;
 		FloatRect static_rect(50, 50, 5, 5);
-		static_texture.loadFromFile("images/static.png");
+		static_texture.loadFromFile("/home/noname/CLionProjects/square-io/images/static.jpg");
 
 
 		Texture bot_texture;
 		FloatRect bot_rect(200, 200, 10, 10);
-		bot_texture.loadFromFile("images/bot.png");
+		bot_texture.loadFromFile("/home/noname/CLionProjects/square-io/images/bot.jpg");
 
 
 		Texture player_texture;
 		FloatRect player_rect(600, 800, 15, 15);
-		player_texture.loadFromFile("images/player.png");
+		player_texture.loadFromFile("/home/noname/CLionProjects/square-io/images/player.jpg");
 
-		player _player(player_texture, player_rect, 0.141, 0.141);//плееру не нужна начальная скорость
+		player _player(player_texture, player_rect, 0.141, 0.141);//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		_player.view.reset(sf::FloatRect(0, 0, 1366, 768));
 
 		world _world(world_texture, world_rect, bot_texture, bot_rect, static_texture, static_rect, &_player);
@@ -39,7 +39,7 @@ int main()
 		_world.set_static_texture(static_texture);
 		_world.set_bot_texture(bot_texture);
 		static_entity static1(static_texture, static_rect);//list of static entity
-		bot b1(bot_texture, bot_rect, 0.141, 0.141);//listOfBots
+		bot b1(bot_texture, bot_rect, 0.241, 0.241);//listOfBots
 
 		_world.pushDynamicEntity(&b1);
 		_world.pushStaticEntity(&static1);
@@ -57,9 +57,9 @@ int main()
 		////******/////
 
 		std::mt19937 gen(time(NULL));
-		std::uniform_int_distribution<> uid(0, 5000);                 //todo define magic numbers
+		std::uniform_int_distribution<> uid(0, 2333);                 //todo define magic numbers
 
-		while (_world.get_collect_of_dynamic_entitys().size() < 1500) {       //todo define magic numbers
+		while (_world.get_collect_of_dynamic_entitys().size() < 50) {       //todo define magic numbers
 			float perem_x = uid(gen);
 			float perem_y = uid(gen);
 
@@ -72,14 +72,14 @@ int main()
 	
 			//_world.get_collect_of_dynamic_entitys().emplace(mp(mp(perem_x, perem_y), new bot(bot_texture, bot_rect, 0.141, 0.141)));  //need getters   //todo define magic numbers
 			sf::FloatRect this_bot_rect(perem_x, perem_y, 10, 10);
-			bot* tmp_obj = new bot(bot_texture, this_bot_rect, 0.141, 0.141);
+			bot* tmp_obj = new bot(bot_texture, this_bot_rect, 0.0, 0.0);
 			_world.push_collect_of_sprites(tmp_obj);
 			_world.pushDynamicEntity(tmp_obj);
 			/*_world.push_collect_of_sprites(&_player);*/
 
 		}
 
-		while (_world.get_collect_of_static_entitys().size() < 520) {         //todo define magic numbers
+		while (_world.get_collect_of_static_entitys().size() < 900) {         //todo define magic numbers
 			float perem_x = uid(gen);
 			float perem_y = uid(gen);
 
@@ -98,6 +98,8 @@ int main()
 
 		}
 
+		_world.sort_list_of_sprites();
+
 		///******////
 
 		
@@ -114,10 +116,31 @@ int main()
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+            {
+                _player.setSpeedX(0.15);
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+            {
+                _player.setSpeedX(-0.15);
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+            {
+                _player.setSpeedY(-0.15);
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+            {
+                _player.setSpeedY(0.15);
+            }
+
+
 			if (event.type == sf::Event::Closed)
 				window.close();
-
-			if (event.type == sf::Event::MouseButtonPressed)
+/*
+			if (event.type == sf::Event::MouseMoved)
 			{
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
@@ -136,8 +159,18 @@ int main()
 					}
 
 				}
-			}
+			}*/
 		}
+
+		_world.moveAllBot(time1);
+
+		if(_world.getPlayer()->getWidthAndHeight() == 0){
+		    nullptr;/*vmesto etoi stroki napishi 4to proishodit v sluchae smerti igroka*/
+		}
+
+		    if(_world.get_collect_of_dynamic_entitys().size() <= 1){
+                nullptr;/*vmesto etoi stroki napishi 4to proishodit v sluchae pobedi igroka*/
+		    }
 
 		for (auto obj : _world.get_collect_of_dynamic_entitys())
 			obj.second->update(time1);

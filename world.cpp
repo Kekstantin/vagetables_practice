@@ -15,12 +15,12 @@ float world::getWidthAndHeight() const
 	return widthAndHeight;
 }
 
-std::map<std::pair<float, float>, static_entity*> world::get_collect_of_static_entitys() const
+std::list<std::pair<std::pair<float, float>, static_entity*>> world::get_collect_of_static_entitys() const
 {
 	return collect_of_static_entitys;
 }
 
-std::map<std::pair<float, float>, dynamic_entity*> world::get_collect_of_dynamic_entitys() const
+std::list<std::pair<std::pair<float, float>, dynamic_entity*>> world::get_collect_of_dynamic_entitys() const
 {
 	return collect_of_dynamic_entitys;
 }
@@ -28,6 +28,10 @@ std::map<std::pair<float, float>, dynamic_entity*> world::get_collect_of_dynamic
 std::list<std::pair<float, entity*>> world::get_collect_of_sprites() const
 {
 	return collect_of_sprites;
+}
+
+void world::sort_list_of_sprites(){
+    collect_of_sprites.sort();
 }
 
 sf::Texture world::get_static_texture()
@@ -77,7 +81,7 @@ void world::set_bot_rect(sf::FloatRect bot_rect)
 
 void world::checkCollision(dynamic_entity* _dynamic_entity)
 {
-	for (auto obj : collect_of_dynamic_entitys) {
+	/*for (auto obj : collect_of_dynamic_entitys) {
 		bool pointOneX = obj.first.first >= _dynamic_entity->getX() && obj.first.first <= _dynamic_entity->getX() + _dynamic_entity->getWidthAndHeight();
 		bool pointOneY = obj.first.second <= _dynamic_entity->getY() && obj.first.second >= _dynamic_entity->getY() - _dynamic_entity->getWidthAndHeight();
 		bool pointTwoX = obj.first.first + obj.second->getWidthAndHeight() >= _dynamic_entity->getX() && obj.first.first + obj.second->getWidthAndHeight() >= _dynamic_entity->getX() + _dynamic_entity->getWidthAndHeight();
@@ -87,42 +91,43 @@ void world::checkCollision(dynamic_entity* _dynamic_entity)
 			_dynamic_entity->eat(obj.second);
 			this->removeDynamicEntity(obj.second);
 		}
-	}
-	//zavtra obsudim
+	}*/
+
+	for (auto obj : collect_of_sprites)
+    {
+	    if(_dynamic_entity != obj.second)
+	    if (obj.second->getRect().intersects(_dynamic_entity->getRect()) && _dynamic_entity->getWidthAndHeight() > obj.second->getWidthAndHeight()){
+	        _dynamic_entity->eat(obj.second);
+	        //_dynamic_entity->eat(obj.second);
+            dynamic_entity* tmp_for_delete = static_cast<dynamic_entity*>(obj.second);
+            this->remove_collect_of_sprites(obj.first, obj.second);
+            this->removeDynamicEntity(tmp_for_delete);
+            tmp_for_delete->setWidthAndHeight(0);
+            //delete obj.second;
+            break;
+	    }
+    }
+
 }
 
 void world::pushStaticEntity(static_entity * _entity)
 {
-	collect_of_static_entitys.insert(mp(mp(_entity->getX(), _entity->getY()), _entity));
+    this->collect_of_static_entitys.push_back(mp(mp(_entity->getX(), _entity->getY()), _entity));
 }
 
 void world::pushDynamicEntity(dynamic_entity * _entity)
 {
-	collect_of_dynamic_entitys.insert(mp(mp(_entity->getX(), _entity->getY()), _entity));
+	this->collect_of_dynamic_entitys.push_back(mp(mp(_entity->getX(), _entity->getY()), _entity));
 }
 
-bool world::removeStaticEntity(static_entity * _entity)
+void world::removeStaticEntity(static_entity * _entity)
 {
-	auto _iter = collect_of_static_entitys.find(mp(_entity->getX(), _entity->getY()));
-
-	if (_iter == collect_of_static_entitys.end())
-		return false;
-	else {
-		collect_of_static_entitys.erase(_iter);
-		return true;
-	}
+    collect_of_static_entitys.remove(mp(mp(_entity->getX(), _entity->getY()), _entity));
 }
 
-bool world::removeDynamicEntity(dynamic_entity * _entity)
+void world::removeDynamicEntity(dynamic_entity * _entity)
 {
-	auto _iter = collect_of_dynamic_entitys.find(mp(_entity->getX(), _entity->getY()));
-
-	if (_iter == collect_of_dynamic_entitys.end())
-		return false;
-	else {
-		collect_of_dynamic_entitys.erase(_iter);
-		return true;
-	}
+	collect_of_dynamic_entitys.remove(mp(mp(_entity->getX(), _entity->getY()), _entity));
 }
 
 void world::push_collect_of_sprites(entity* _entity)
@@ -131,58 +136,53 @@ void world::push_collect_of_sprites(entity* _entity)
 	//this->collect_of_sprites[_entity->getWidthAndHeight()] = _entity;
 }
 
-/*bool world::remove_collect_of_sprites(float widthAndHeight, entity * _entity)
+void world::remove_collect_of_sprites(float widthAndHeight, entity * _entity)
 {
-	auto _iter = collect_of_sprites.find(widthAndHeight);
 
-	if (_iter == collect_of_sprites.end())
-		return false;
-	else {
-		collect_of_sprites.erase(_iter);
-		return true;
-	}
-}*/
+    collect_of_sprites.remove(mp(widthAndHeight, _entity));
+
+}
 
 void world::moveAllBot(float time)
 {
 	this->checkCollision(this->getPlayer());
 
 	for (auto obj : collect_of_dynamic_entitys) {
-		//obj.second->update(time, (this->find_target(obj.second)));
-		//obj.first = mp(obj.second->getX(), obj.second->getY());
-		auto tmp = collect_of_dynamic_entitys.extract(obj.first);
-		tmp.key() = mp(obj.second->getX(), obj.second->getY());
-		collect_of_dynamic_entitys.insert(move(tmp));
-		//this->checkCollision(obj.second);
-	}
+        this->find_target(obj.second);
+		obj.second->move(time);
+        this->checkCollision(obj.second);
+
+        obj = mp(mp(obj.second->getX(), obj.second->getY()), obj.second);
+    }
+
 }
 
 //std::pair<entity*, float>
 void world::find_target(dynamic_entity* _bot)
 {
-	float distance = sqrt((this->get_collect_of_static_entitys().begin()->first.first - _bot->getX()) *
-		(this->get_collect_of_static_entitys().begin()->first.first - _bot->getX()) +
-		(this->get_collect_of_static_entitys().begin()->first.second - _bot->getY()) *
-		(this->get_collect_of_static_entitys().begin()->first.second - _bot->getY()));
+	float distance = sqrt((this->getPlayer()->getX() - _bot->getX()) *
+		(this->getPlayer()->getX() - _bot->getX()) +
+		(this->getPlayer()->getY() - _bot->getY()) *
+		(this->getPlayer()->getY() - _bot->getY()));
 	float new_distance;
-	entity* target = this->get_collect_of_static_entitys().begin()->second;
-	auto result = mp(target, distance);
+	entity* target = this->getPlayer();
+	std::pair<entity*, float> result; //= mp(target, distance);
 	
-	for (auto i : this->get_collect_of_static_entitys())
+	for (auto i : this->get_collect_of_sprites())
 	{
 		new_distance = distance;
 		if ((_bot->getWidthAndHeight() / i.second->getWidthAndHeight()) > 1.2) {
-			new_distance = sqrt((i.first.first - _bot->getX()) *
-				(i.first.first - _bot->getX()) +
-				(i.first.second - _bot->getY()) *
-				(i.first.second - _bot->getY()));
+			new_distance = sqrt((i.second->getX() - _bot->getX()) *
+                                (i.second->getX() - _bot->getX()) +
+                                (i.second->getY() - _bot->getY()) *
+                                (i.second->getY() - _bot->getY()));
 		}
 		if (new_distance < distance) {
 			distance = new_distance;
 			target = i.second;
 		}
 	}
-	for (auto i : this->get_collect_of_dynamic_entitys())
+	/*for (auto i : this->get_collect_of_dynamic_entitys())
 	{
 		new_distance = distance;
 		if ((_bot->getWidthAndHeight() / i.second->getWidthAndHeight()) > 1.2) {
@@ -198,13 +198,14 @@ void world::find_target(dynamic_entity* _bot)
 			target = i.second;
 		}
 				
-	}
+	}*/
 	result = mp(target, distance);
+	_bot->setTarget(result);
 	
 	//return result;
 }
 
-void world::create_method() {
+/*void world::create_method() {
 
 	std::mt19937 gen(time(NULL));
 	std::uniform_int_distribution<> uid(0, 5000);                 //todo define magic numbers
@@ -235,4 +236,4 @@ void world::create_method() {
 			this->get_collect_of_static_entitys().emplace(mp(mp(perem_x, perem_y), new static_entity(static_texture, static_rect)));//need getters
 	}
 
-}
+}*/
